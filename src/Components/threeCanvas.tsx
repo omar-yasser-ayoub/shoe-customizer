@@ -13,17 +13,17 @@ const ThreeCanvas: React.FC = () => {
   useEffect(() => {
     const control = controls.current;
     if (control) {
-        // control.enablePan = false;
-        // control.enableZoom = false;
-        // control.enableDamping = false;
+        control.enablePan = false;
+        control.enableZoom = false;
+        control.enableDamping = false;
     }
   }, []);
   useEffect(() => {
     if (model) {
-        const child = model.children[5] as Mesh;
-        if (child) {
-            child.material = leatherTexture(new THREE.Color(0xFF0000));
-        } 
+      const child = model.children[5] as Mesh;
+      if (child) {
+          child.material = leatherTexture(new THREE.Color(0xFF0000));
+      } 
     }
   }, [model]);
 
