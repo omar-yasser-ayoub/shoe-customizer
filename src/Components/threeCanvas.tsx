@@ -22,8 +22,9 @@ const ThreeCanvas: React.FC = () => {
     if (model) {
       const child = model.children[5] as Mesh;
       if (child && loadingManager) {
-        const material = child.material as THREE.MeshStandardMaterial;
-        material.color = new THREE.Color(0xff0000);
+        child.material = loadManager.getFabricMaterial(new THREE.Color('purple'));
+        // const material = child.material as THREE.MeshStandardMaterial;
+        // material.color = new THREE.Color(new THREE.Color('purple'));
       }
     }
   }, [model]);
@@ -40,8 +41,8 @@ const ThreeCanvas: React.FC = () => {
   return (
     <Canvas className="w-full h-full bg-black">
       <OrbitControls ref={controls} />
-      <ambientLight color={0xffffff} intensity={4} />
-      <pointLight position={[2, 2, 2]} intensity={4} />
+      <ambientLight color={0xffffff} intensity={15} />
+      <pointLight position={[2, 2, 2]} intensity={15} />
       <group position={[0, -3, 0]}>
         <RenderModel />
       </group>

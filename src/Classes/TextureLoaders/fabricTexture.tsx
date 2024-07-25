@@ -1,28 +1,28 @@
 import * as THREE from "three";
 
-const leatherTexture = (
+const fabricTexture = (
   color: THREE.Color,
   textureLoader: THREE.TextureLoader
 ) => {
   const colorMap = textureLoader.load(
-    "/textures/leather/leather_red_03_coll1_2k.webp"
+    "/textures/fabric/fabric_col1.webp"
   );
   colorMap.wrapS = THREE.RepeatWrapping;
   colorMap.wrapT = THREE.RepeatWrapping;
   colorMap.colorSpace = THREE.SRGBColorSpace;
-  colorMap.repeat.set(0.1, 0.1);
+  colorMap.repeat.set(0.0075, 0.0075);
   const armMap = textureLoader.load(
-    "/textures/leather/leather_red_03_arm_2k.webp"
+    "/textures/fabric/fabric_arm.webp"
   );
   armMap.wrapS = THREE.RepeatWrapping;
   armMap.wrapT = THREE.RepeatWrapping;
   const displacementMap = textureLoader.load(
-    "/textures/leather/leather_red_03_disp_2k.webp"
+    "/textures/fabric/fabric_disp.webp"
   );
   displacementMap.wrapS = THREE.RepeatWrapping;
   displacementMap.wrapT = THREE.RepeatWrapping;
   const normalDXMap = textureLoader.load(
-    "/textures/leather/leather_red_03_nor_gl_2k.webp"
+    "/textures/fabric/fabric_nor.webp"
   );
   normalDXMap.wrapS = THREE.RepeatWrapping;
   normalDXMap.wrapT = THREE.RepeatWrapping;
@@ -36,12 +36,12 @@ const leatherTexture = (
     normalMap: normalDXMap,
     roughnessMap: armMap,
     metalnessMap: armMap,
-    roughness: 1,
-    metalness: 1,
-    aoMapIntensity: 1,
+    roughness: 0.5,
+    metalness: 0.5,
+    aoMapIntensity: 0.5,
   });
 
   return material;
 };
 
-export default leatherTexture;
+export default fabricTexture;
