@@ -32,13 +32,13 @@ const fabricTexture = (
     map: colorMap,
     aoMap: armMap,
     displacementMap: displacementMap,
-    displacementScale: 0.0001,
+    displacementScale: 0.0003,
     normalMap: normalDXMap,
     roughnessMap: armMap,
     metalnessMap: armMap,
-    roughness: 0.5,
-    metalness: 0.5,
-    aoMapIntensity: 0.5,
+    roughness: 1,
+    metalness: 1,
+    aoMapIntensity: 1,
   });
 
   return material;
