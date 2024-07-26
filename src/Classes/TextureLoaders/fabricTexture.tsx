@@ -36,7 +36,7 @@ const fabricTexture = (
     normalMap: normalDXMap,
     roughnessMap: armMap,
     metalnessMap: armMap,
-    roughness: 1,
+    roughness: 2,
     metalness: 1,
     aoMapIntensity: 1,
   });

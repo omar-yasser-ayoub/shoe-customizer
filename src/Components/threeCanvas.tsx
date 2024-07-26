@@ -29,20 +29,20 @@ const ThreeCanvas: React.FC = () => {
       }
     });
   
-    const fabricIndices = [];
-    const leatherIndices = [3, 12, 13, 14, 15, 16, 17, 18, 19, 20, 5, 7, 8, 9, 10, 11];
+    const fabricIndices = [5, 7, 8, 9, 10, 11];
+    const leatherIndices = [0, 1 , 2 , 3, 4, 6, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   
     fabricIndices.forEach(index => {
       const child = model.children[index] as Mesh;
       if (child) {
-        child.material = loadManager.getFabricMaterial(new THREE.Color("red"));
+        child.material = loadManager.getFabricMaterial(new THREE.Color("blue"));
       }
     });
   
     leatherIndices.forEach(index => {
       const child = model.children[index] as Mesh;
       if (child) {
-        child.material = loadManager.getLeatherMaterial(new THREE.Color("black"));
+        child.material = loadManager.getLeatherMaterial(new THREE.Color("white"));
       }
     });
   
@@ -73,7 +73,7 @@ const ThreeCanvas: React.FC = () => {
       <OrbitControls ref={controls} />
       <ambientLight color={0xffffff} intensity={6} />
       <directionalLight
-        color={0x0000FF}
+        color={0xFFFFFF}
         intensity={22}
         position={[0, 7, 6]}
         castShadow={true}

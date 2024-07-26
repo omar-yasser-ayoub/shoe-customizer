@@ -5,7 +5,7 @@ const leatherTexture = (
   textureLoader: THREE.TextureLoader
 ) => {
   const colorMap = textureLoader.load(
-    "/textures/leather/leather_red_03_coll1_2k.webp"
+    "/textures/leather/leather_red_03_coll2_2k.webp"
   );
   colorMap.wrapS = THREE.RepeatWrapping;
   colorMap.wrapT = THREE.RepeatWrapping;
@@ -36,9 +36,9 @@ const leatherTexture = (
     normalMap: normalDXMap,
     roughnessMap: armMap,
     metalnessMap: armMap,
-    roughness: 1,
+    roughness: 5,
     metalness: 1,
-    aoMapIntensity: 1,
+    aoMapIntensity: 4,
   });
 
   return material;
