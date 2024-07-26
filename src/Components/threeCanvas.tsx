@@ -11,7 +11,6 @@ const ThreeCanvas: React.FC = () => {
   const model: Group = Model("/shoe.gltf");
   const controls = useRef<OrbitControls>(null);
   const loadManager: loadingManager = new loadingManager();
-  const dirLightRef = useRef<THREE.DirectionalLight>(null);
   useEffect(() => {
     const control = controls.current;
     if (control) {
@@ -21,29 +20,33 @@ const ThreeCanvas: React.FC = () => {
     }
   }, []);
   useEffect(() => {
-    if (model) {
-      for (let i = 0; i < model.children.length; i++) {
-        const child = model.children[i] as Mesh;
-        if (child) {
-          child.receiveShadow = true;
-        }
+    if (!model || !loadManager) return;
+
+    model.children.forEach((child) => {
+      if (child instanceof Mesh) {
+        child.receiveShadow = true;
+        child.castShadow = true;
       }
-      const child = model.children[5] as Mesh;
-      const child2 = model.children[7] as Mesh;
-      const child3 = model.children[8] as Mesh;
-      const child4 = model.children[9] as Mesh;
-      const child5 = model.children[10] as Mesh;
-      const child6 = model.children[11] as Mesh;
-      if (child && child2 && loadManager) {
+    });
+  
+    const fabricIndices = [];
+    const leatherIndices = [3, 12, 13, 14, 15, 16, 17, 18, 19, 20, 5, 7, 8, 9, 10, 11];
+  
+    fabricIndices.forEach(index => {
+      const child = model.children[index] as Mesh;
+      if (child) {
         child.material = loadManager.getFabricMaterial(new THREE.Color("red"));
-        child2.material = loadManager.getFabricMaterial(new THREE.Color("red"));
-        child3.material = loadManager.getFabricMaterial(new THREE.Color("red"));
-        child4.material = loadManager.getFabricMaterial(new THREE.Color("red"));
-        child5.material = loadManager.getFabricMaterial(new THREE.Color("red"));
-        child6.material = loadManager.getFabricMaterial(new THREE.Color("red"));
       }
-    }
-  }, [model]);
+    });
+  
+    leatherIndices.forEach(index => {
+      const child = model.children[index] as Mesh;
+      if (child) {
+        child.material = loadManager.getLeatherMaterial(new THREE.Color("black"));
+      }
+    });
+  
+  }, [model, loadManager]);
 
   const RenderModel = () => {
     useFrame((state, delta) => {
@@ -70,9 +73,8 @@ const ThreeCanvas: React.FC = () => {
       <OrbitControls ref={controls} />
       <ambientLight color={0xffffff} intensity={6} />
       <directionalLight
-        ref={dirLightRef}
-        color={0xffffff}
-        intensity={6}
+        color={0x0000FF}
+        intensity={22}
         position={[0, 7, 6]}
         castShadow={true}
         shadow-mapSize-width={2048}
