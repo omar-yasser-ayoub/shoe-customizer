@@ -5,32 +5,61 @@ import { Group, Mesh } from "three";
 import * as THREE from "three";
 import loadingManager from "../Classes/loadingManager.tsx";
 import { Environment } from "@react-three/drei";
+import Model from "../Classes/Models/Model.tsx";
 
 const ThreeCanvas: React.FC = () => {
   const controls = useRef<OrbitControls>(null);
   const loadManager: loadingManager = new loadingManager();
   const model: Group = loadManager.getModel("/shoe.gltf");
+
+
+  const soleGroup : Group = new THREE.Group();
+  const primaryGroup : Group = new THREE.Group();
+  const secondaryGroup : Group = new THREE.Group();
+  const fabricIndices :  number[] = [];
+  const leatherIndices : number[] = [];
+
+
   useEffect(() => {
     const control = controls.current;
     if (control) {
-      control.enablePan = false;
-      control.enableZoom = false;
-      control.enableDamping = false;
+      // control.enablePan = false;
+      // control.enableZoom = false;
+      // control.enableDamping = false;
     }
   }, []);
   useEffect(() => {
     if (!model || !loadManager) return;
 
+    const tempSoleArray: Mesh[] = [];
+    const tempPrimaryArray: Mesh[] = [];
+    const tempSecondaryArray: Mesh[] = [];
+
     model.children.forEach((child) => {
       if (child instanceof Mesh) {
         child.receiveShadow = true;
         child.castShadow = true;
+        if (child.material.name.includes("Scene")) {
+          tempSoleArray.push(child);
+        }
+        if (child.material.name.includes("Leather")) {
+          tempPrimaryArray.push(child);
+        }
+        if (child.material.name.includes("Cotton")) {
+          tempSecondaryArray.push(child);
+        }
       }
     });
-  
-    const fabricIndices = [5, 7, 8, 9, 10, 11];
-    const leatherIndices = [0, 1 , 2 , 3, 4, 6, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-  
+    tempSoleArray.forEach((child) => {
+      soleGroup.add(child);
+    })
+    tempPrimaryArray.forEach((child) => {
+      primaryGroup.add(child);
+    })
+    tempSecondaryArray.forEach((child) => {
+      secondaryGroup.add(child);
+    })
+    model.add(soleGroup, primaryGroup, secondaryGroup);
     fabricIndices.forEach(index => {
       const child = model.children[index] as Mesh;
       if (child) {
