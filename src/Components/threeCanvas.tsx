@@ -1,22 +1,21 @@
 import React, { useEffect, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import Model from "./Model";
 import { Group, Mesh } from "three";
 import * as THREE from "three";
 import loadingManager from "../Classes/loadingManager.tsx";
 import { Environment } from "@react-three/drei";
 
 const ThreeCanvas: React.FC = () => {
-  const model: Group = Model("/shoe.gltf");
   const controls = useRef<OrbitControls>(null);
   const loadManager: loadingManager = new loadingManager();
+  const model: Group = loadManager.getModel("/shoe.gltf");
   useEffect(() => {
     const control = controls.current;
     if (control) {
-      // control.enablePan = false;
-      // control.enableZoom = false;
-      // control.enableDamping = false;
+      control.enablePan = false;
+      control.enableZoom = false;
+      control.enableDamping = false;
     }
   }, []);
   useEffect(() => {
@@ -51,7 +50,7 @@ const ThreeCanvas: React.FC = () => {
   const RenderModel = () => {
     useFrame((state, delta) => {
       if (model) {
-        // model.rotation.y += 0.5*delta;
+        model.rotation.y += 0.5*delta;
       }
     });
     return <primitive object={model} />;
