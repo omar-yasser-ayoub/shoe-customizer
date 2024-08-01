@@ -1,0 +1,47 @@
+import React, { useRef, useEffect } from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
+import { Group, Raycaster, Vector2, Object3D } from 'three';
+import { OrbitControls } from '@react-three/drei';
+
+interface RaycastHandlerProps {
+    setSelectedMesh: (mesh: Object3D) => void;
+  }
+
+const RaycastHandler: React.FC<RaycastHandlerProps> = ({ setSelectedMesh }) => {
+  const { camera, scene } = useThree();
+  const raycaster = useRef<Raycaster>(new Raycaster()).current;
+  const mouse = useRef<Vector2>(new Vector2()).current;
+
+  const handleMouseMove = (event: MouseEvent) => {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children, true);
+
+    if (intersects.length > 0) {
+      const intersection = intersects[0];
+      console.log('Hit:', intersection.object);
+      setSelectedMesh(intersection.object);
+
+      let parent = intersection.object.parent;
+      while (parent && !(parent instanceof Group)) {
+        parent = parent.parent;
+      }
+
+      if (parent instanceof Group) {
+        console.log('Hit group:', parent);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [camera, scene]);
+
+  return null;
+};
+export default RaycastHandler;

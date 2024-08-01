@@ -1,16 +1,21 @@
-import React, { useEffect, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import React, { useEffect, useRef, useState } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { Group, Mesh } from "three";
 import * as THREE from "three";
 import loadingManager from "../Classes/loadingManager.tsx";
 import { Environment } from "@react-three/drei";
-import Model from "../Classes/Models/Model.tsx";
+import RaycastHandler from "./RaycastHandler.tsx";
+
+import OutlineComponent from "./OutlineComponent.tsx";
 
 const ThreeCanvas: React.FC = () => {
   const controls = useRef<OrbitControls>(null);
   const loadManager: loadingManager = new loadingManager();
   const model: Group = loadManager.getModel("/shoe.gltf");
+  const [selectedMesh, setSelectedMesh] = useState<THREE.Object3D>(new THREE.Object3D());
+  
+
 
 
   const soleGroup : Group = new THREE.Group();
@@ -120,6 +125,8 @@ const ThreeCanvas: React.FC = () => {
         shadow-camera-bottom={-50}
       >
       </directionalLight>
+      <RaycastHandler setSelectedMesh={setSelectedMesh} />
+      <OutlineComponent selectedMesh={selectedMesh} />
       <group position={[0, -3, 0]}>
         <RenderModel />
       </group>
