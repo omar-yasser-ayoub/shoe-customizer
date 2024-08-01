@@ -32,7 +32,7 @@ const fabricTexture = (
     map: colorMap,
     aoMap: armMap,
     displacementMap: displacementMap,
-    displacementScale: 0.0003,
+    displacementScale: 0,
     normalMap: normalDXMap,
     roughnessMap: armMap,
     metalnessMap: armMap,

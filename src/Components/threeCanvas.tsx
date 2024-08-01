@@ -16,8 +16,8 @@ const ThreeCanvas: React.FC = () => {
   const soleGroup : Group = new THREE.Group();
   const primaryGroup : Group = new THREE.Group();
   const secondaryGroup : Group = new THREE.Group();
-  const fabricIndices :  number[] = [];
-  const leatherIndices : number[] = [];
+  const fabricIndices :  Mesh[] = [];
+  const leatherIndices : Mesh[] = [];
 
 
   useEffect(() => {
@@ -60,27 +60,32 @@ const ThreeCanvas: React.FC = () => {
       secondaryGroup.add(child);
     })
     model.add(soleGroup, primaryGroup, secondaryGroup);
-    fabricIndices.forEach(index => {
-      const child = model.children[index] as Mesh;
-      if (child) {
-        child.material = loadManager.getFabricMaterial(new THREE.Color("blue"));
+
+    for (let i = 0; i < primaryGroup.children.length; i++) {
+      if (primaryGroup.children[i] instanceof Mesh) {
+        fabricIndices.push(primaryGroup.children[i] as Mesh);
       }
+    }
+    for (let i = 0; i < secondaryGroup.children.length; i++) {
+      if (secondaryGroup.children[i] instanceof Mesh) {
+        leatherIndices.push(secondaryGroup.children[i] as Mesh);
+      }
+    }
+    
+    fabricIndices.forEach(mesh => {
+      mesh.material = loadManager.getFabricMaterial(new THREE.Color("red"));
     });
-  
-    leatherIndices.forEach(index => {
-      const child = model.children[index] as Mesh;
-      if (child) {
-        child.material = loadManager.getLeatherMaterial(new THREE.Color("white"));
-      }
+    leatherIndices.forEach(mesh => {
+      mesh.material = loadManager.getLeatherMaterial(new THREE.Color("white"));
     });
   
   }, [model, loadManager]);
 
   const RenderModel = () => {
     useFrame((state, delta) => {
-      if (model) {
-        model.rotation.y += 0.5*delta;
-      }
+      // if (model) {
+      //   model.rotation.y += 0.5*delta;
+      // }
     });
     return <primitive object={model} />;
   };
