@@ -109,7 +109,7 @@ const ThreeCanvas: React.FC = () => {
     >
       <Environment files={"/textures/env/sky.hdr"} background />
       <OrbitControls ref={controls} />
-      <ambientLight color={0xffffff} intensity={6} />
+      <ambientLight color={0xffffff} intensity={2} />
       <directionalLight
         color={0xFFFFFF}
         intensity={22}

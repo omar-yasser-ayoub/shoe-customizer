@@ -21,24 +21,14 @@ const RaycastHandler: React.FC<RaycastHandlerProps> = ({ setSelectedMesh }) => {
 
     if (intersects.length > 0) {
       const intersection = intersects[0];
-      console.log('Hit:', intersection.object);
       setSelectedMesh(intersection.object);
-
-      let parent = intersection.object.parent;
-      while (parent && !(parent instanceof Group)) {
-        parent = parent.parent;
-      }
-
-      if (parent instanceof Group) {
-        console.log('Hit group:', parent);
-      }
     }
   };
 
   useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('click', handleMouseMove);
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('click', handleMouseMove);
     };
   }, [camera, scene]);
 
