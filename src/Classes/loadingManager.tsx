@@ -5,8 +5,6 @@ import Model from "./Models/Model";
 
 class loadingManager {
   textureLoader: THREE.TextureLoader;
-  leatherMaterial?: THREE.MeshPhysicalMaterial;
-  fabricMaterial?: THREE.MeshPhysicalMaterial;
   model?: THREE.Group;
   constructor() {
     this.textureLoader = new THREE.TextureLoader();
@@ -17,17 +15,11 @@ class loadingManager {
     }
     return this.model;
   }
-  public getLeatherMaterial(color: THREE.Color): THREE.MeshPhysicalMaterial {
-    if (!this.leatherMaterial) {
-      this.leatherMaterial = leatherTexture(color, this.textureLoader);
-    }
-    return this.leatherMaterial;
+  public getLeatherMaterial(color: THREE.Color): THREE.MeshStandardMaterial {
+    return leatherTexture(color, this.textureLoader);
   }
-  public getFabricMaterial(color: THREE.Color): THREE.MeshPhysicalMaterial {
-    if (!this.fabricMaterial) {
-      this.fabricMaterial = fabricTexture(color, this.textureLoader);
-    }
-    return this.fabricMaterial;
+  public getFabricMaterial(color: THREE.Color): THREE.MeshStandardMaterial {
+    return fabricTexture(color, this.textureLoader);
   }
 
   //rinse and repeat for all the textures?

@@ -6,18 +6,15 @@ import * as THREE from "three";
 import loadingManager from "../Classes/loadingManager.tsx";
 import { Environment } from "@react-three/drei";
 import RaycastHandler from "./RaycastHandler.tsx";
-
+import { ColorResult, ChromePicker, CirclePicker } from "react-color";
 import OutlineComponent from "./OutlineComponent.tsx";
 
 const ThreeCanvas: React.FC = () => {
   const controls = useRef<OrbitControls>(null);
   const loadManager: loadingManager = new loadingManager();
   const model: Group = loadManager.getModel("/shoe.gltf");
-  const [selectedMesh, setSelectedMesh] = useState<THREE.Object3D>(new THREE.Object3D());
-  
-
-
-
+  const [selectedMesh, setSelectedMesh] = useState<THREE.Mesh>(new THREE.Mesh());
+  const [color, setColor] = useState<string>("#ffffff");
   const soleGroup : Group = new THREE.Group();
   const primaryGroup : Group = new THREE.Group();
   const secondaryGroup : Group = new THREE.Group();
@@ -28,9 +25,9 @@ const ThreeCanvas: React.FC = () => {
   useEffect(() => {
     const control = controls.current;
     if (control) {
-      // control.enablePan = false;
-      // control.enableZoom = false;
-      // control.enableDamping = false;
+      control.enablePan = false;
+      control.enableZoom = false;
+      control.enableDamping = false;
     }
   }, []);
   useEffect(() => {
@@ -95,42 +92,54 @@ const ThreeCanvas: React.FC = () => {
     return <primitive object={model} />;
   };
 
+  const handleColorChange = (colorResult: ColorResult) => {
+    if (selectedMesh.material instanceof THREE.MeshStandardMaterial && selectedMesh.material.color) {
+      selectedMesh.material.color.set(colorResult.hex);
+    }
+  };
+
   return (
-    <Canvas
-      className="w-full h-full bg-black"
-      gl={{
-        toneMapping: THREE.ReinhardToneMapping,
-        toneMappingExposure: 2.2,
-        antialias: true,
-        shadowMapEnabled: true,
-        shadowMapType: THREE.PCFSoftShadowMap,
-      }}
-      shadows={true}
-    >
-      <Environment files={"/textures/env/sky.hdr"} background />
-      <OrbitControls ref={controls} />
-      <ambientLight color={0xffffff} intensity={2} />
-      <directionalLight
-        color={0xFFFFFF}
-        intensity={22}
-        position={[0, 7, 6]}
-        castShadow={true}
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
-        shadow-camera-near={0.5}
-        shadow-camera-far={500}
-        shadow-camera-left={-50}
-        shadow-camera-right={50}
-        shadow-camera-top={50}
-        shadow-camera-bottom={-50}
+    <div className="w-full h-full relative">
+      <Canvas
+        className="w-full h-full bg-black"
+        gl={{
+          toneMapping: THREE.ReinhardToneMapping,
+          toneMappingExposure: 2.2,
+          antialias: true,
+          shadowMapEnabled: true,
+          shadowMapType: THREE.PCFSoftShadowMap,
+        }}
+        shadows={true}
       >
-      </directionalLight>
-      <RaycastHandler setSelectedMesh={setSelectedMesh} />
-      <OutlineComponent selectedMesh={selectedMesh} />
-      <group position={[0, -3, 0]}>
-        <RenderModel />
-      </group>
-    </Canvas>
+        <Environment files={"/textures/env/sky.hdr"} background />
+        <OrbitControls ref={controls} />
+        <ambientLight color={0xffffff} intensity={2} />
+        <directionalLight
+          color={0xFFFFFF}
+          intensity={22}
+          position={[0, 7, 6]}
+          castShadow={true}
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
+          shadow-camera-near={0.5}
+          shadow-camera-far={500}
+          shadow-camera-left={-50}
+          shadow-camera-right={50}
+          shadow-camera-top={50}
+          shadow-camera-bottom={-50}
+        >
+        </directionalLight>
+        <RaycastHandler setSelectedMesh={setSelectedMesh} />
+        <OutlineComponent selectedMesh={selectedMesh} />
+        <group position={[0, -3, 0]}>
+          <RenderModel />
+        </group>
+      </Canvas>
+      <div className="absolute top-4 left-4 w-1/5 h-1/4 bg-white rounded-lg shadow-lg border-4 border-red-500">
+        <h1 className="">{selectedMesh.material instanceof THREE.MeshStandardMaterial ? selectedMesh.material.color : ""}</h1>
+        <CirclePicker color={selectedMesh.material instanceof THREE.MeshStandardMaterial ? selectedMesh.material.color : ""} onChangeComplete={handleColorChange} />
+      </div>
+    </div>
   );
 };
 

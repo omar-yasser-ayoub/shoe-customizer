@@ -9,7 +9,7 @@ import * as THREE from "three";
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
 
 interface OutlineComponentProps {
-  selectedMesh: THREE.Object3D | undefined;
+  selectedMesh: THREE.Mesh | undefined;
 }
 
 const OutlineComponent: React.FC<OutlineComponentProps> = ({ selectedMesh }) => {

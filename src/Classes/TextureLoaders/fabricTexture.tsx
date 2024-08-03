@@ -5,39 +5,43 @@ const fabricTexture = (
   textureLoader: THREE.TextureLoader
 ) => {
   const colorMap = textureLoader.load(
-    "/textures/fabric/fabric_col1.webp"
+    "/textures/fabric/Fabric_Burlap_002_COLOR.jpg"
   );
   colorMap.wrapS = THREE.RepeatWrapping;
   colorMap.wrapT = THREE.RepeatWrapping;
   colorMap.colorSpace = THREE.SRGBColorSpace;
-  colorMap.repeat.set(0.0075, 0.0075);
-  const armMap = textureLoader.load(
-    "/textures/fabric/fabric_arm.webp"
+  colorMap.repeat.set(0.02, 0.02);
+  const AOMap = textureLoader.load(
+    "/textures/fabric/Fabric_Burlap_002_OCC.jpg"
   );
-  armMap.wrapS = THREE.RepeatWrapping;
-  armMap.wrapT = THREE.RepeatWrapping;
+  AOMap.wrapS = THREE.RepeatWrapping;
+  AOMap.wrapT = THREE.RepeatWrapping;
+  const RoughMap = textureLoader.load(
+    "/textures/fabric/Fabric_Burlap_002_ROUGH.jpg"
+  );
+  RoughMap.wrapS = THREE.RepeatWrapping;
+  RoughMap.wrapT = THREE.RepeatWrapping;
   const displacementMap = textureLoader.load(
-    "/textures/fabric/fabric_disp.webp"
+    "/textures/fabric/Fabric_Burlap_002_DISP.png"
   );
   displacementMap.wrapS = THREE.RepeatWrapping;
   displacementMap.wrapT = THREE.RepeatWrapping;
   const normalDXMap = textureLoader.load(
-    "/textures/fabric/fabric_nor.webp"
+    "/textures/fabric/Fabric_Burlap_002_NORM.jpg"
   );
   normalDXMap.wrapS = THREE.RepeatWrapping;
   normalDXMap.wrapT = THREE.RepeatWrapping;
 
-  const material = new THREE.MeshPhysicalMaterial({
+  const material = new THREE.MeshStandardMaterial({
     color: color,
     map: colorMap,
-    aoMap: armMap,
+    aoMap: AOMap,
     displacementMap: displacementMap,
-    displacementScale: 0.0003,
+    displacementScale: 0.0001,
     normalMap: normalDXMap,
-    roughnessMap: armMap,
-    metalnessMap: armMap,
+    roughnessMap: AOMap,
     roughness: 2,
-    metalness: 1,
+    metalness: 0,
     aoMapIntensity: 1,
   });
 

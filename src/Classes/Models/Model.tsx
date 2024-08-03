@@ -1,4 +1,3 @@
-import { useFrame } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { Group } from "three";
 import { useEffect, useState } from "react";

@@ -27,7 +27,7 @@ const leatherTexture = (
   normalDXMap.wrapS = THREE.RepeatWrapping;
   normalDXMap.wrapT = THREE.RepeatWrapping;
 
-  const material = new THREE.MeshPhysicalMaterial({
+  const material = new THREE.MeshStandardMaterial({
     color: color,
     map: colorMap,
     aoMap: armMap,

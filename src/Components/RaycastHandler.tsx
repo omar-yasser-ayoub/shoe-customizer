@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
-import { Group, Raycaster, Vector2, Object3D } from 'three';
+import { Group, Raycaster, Vector2, Object3D, Mesh } from 'three';
 import { OrbitControls } from '@react-three/drei';
 
 interface RaycastHandlerProps {
-    setSelectedMesh: (mesh: Object3D) => void;
+    setSelectedMesh: (mesh: Mesh) => void;
   }
 
 const RaycastHandler: React.FC<RaycastHandlerProps> = ({ setSelectedMesh }) => {
@@ -19,9 +19,8 @@ const RaycastHandler: React.FC<RaycastHandlerProps> = ({ setSelectedMesh }) => {
     raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObjects(scene.children, true);
 
-    if (intersects.length > 0) {
-      const intersection = intersects[0];
-      setSelectedMesh(intersection.object);
+    if (intersects.length > 0 && intersects[0].object instanceof Mesh) {
+      setSelectedMesh(intersects[0].object);
     }
   };
 
