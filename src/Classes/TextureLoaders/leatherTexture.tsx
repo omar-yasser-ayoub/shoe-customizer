@@ -36,9 +36,9 @@ const leatherTexture = (
     normalMap: normalDXMap,
     roughnessMap: armMap,
     metalnessMap: armMap,
-    roughness: 5,
+    roughness: 1,
     metalness: 1,
-    aoMapIntensity: 4,
+    aoMapIntensity: 1,
   });
 
   return material;
